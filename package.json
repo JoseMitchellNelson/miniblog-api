@@ -1,0 +1,25 @@
+{
+  "name": "miniblog-api",
+  "version": "1.0.0",
+  "description": "API REST para gestionar usuarios y publicaciones de MiniBlog",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test",
+    "db:schema": "psql $DATABASE_URL -f sql/schema.sql",
+    "db:seed": "psql $DATABASE_URL -f sql/seed.sql"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "pg": "^8.13.1",
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": { "supertest": "^7.0.0" }
+}
