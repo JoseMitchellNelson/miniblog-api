@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info: { title: MiniBlog API, version: 1.0.0, description: API REST de autores, posts y comentarios }
+servers: [{ url: http://localhost:3000 }]
+paths:
+  /health:
+    get: { summary: Estado de la API, responses: { '200': { description: Disponible } } }
+  /authors:
+    get: { summary: Listar autores, responses: { '200': { description: Lista de autores } } }
+    post:
+      summary: Crear autor
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Author' } } } }
+      responses: { '201': { description: Autor creado }, '400': { description: Datos inválidos o email duplicado } }
+  /authors/{id}:
+    parameters: [{ $ref: '#/components/parameters/Id' }]
+    get: { summary: Obtener autor, responses: { '200': { description: Autor }, '404': { description: No encontrado } } }
+    put:
+      summary: Actualizar autor
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Author' } } } }
+      responses: { '200': { description: Autor actualizado }, '404': { description: No encontrado } }
+    delete: { summary: Eliminar autor, responses: { '204': { description: Eliminado }, '404': { description: No encontrado } } }
+  /posts:
+    get: { summary: Listar posts con su autor, responses: { '200': { description: Lista de posts } } }
+    post:
+      summary: Crear post
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Post' } } } }
+      responses: { '201': { description: Post creado }, '400': { description: Datos inválidos } }
+  /posts/{id}:
+    parameters: [{ $ref: '#/components/parameters/Id' }]
+    get: { summary: Obtener post, responses: { '200': { description: Post }, '404': { description: No encontrado } } }
+    put:
+      summary: Actualizar post
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Post' } } } }
+      responses: { '200': { description: Post actualizado }, '404': { description: No encontrado } }
+    delete: { summary: Eliminar post, responses: { '204': { description: Eliminado }, '404': { description: No encontrado } } }
+  /posts/author/{authorId}:
+    get:
+      summary: Listar posts de un autor con detalle del autor
+      parameters: [{ name: authorId, in: path, required: true, schema: { type: integer, minimum: 1 } }]
+      responses: { '200': { description: Lista de posts } }
+  /comments:
+    get: { summary: Listar comentarios, responses: { '200': { description: Lista de comentarios } } }
+    post:
+      summary: Crear comentario
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Comment' } } } }
+      responses: { '201': { description: Comentario creado }, '400': { description: Datos inválidos } }
+components:
+  parameters:
+    Id: { name: id, in: path, required: true, schema: { type: integer, minimum: 1 } }
+  schemas:
+    Author:
+      type: object
+      required: [name, email]
+      properties: { name: { type: string, maxLength: 100 }, email: { type: string, format: email }, bio: { type: string, maxLength: 1000 } }
+    Post:
+      type: object
+      required: [author_id, title, content]
+      properties: { author_id: { type: integer, minimum: 1 }, title: { type: string, maxLength: 200 }, content: { type: string }, published: { type: boolean, default: false } }
+    Comment:
+      type: object
+      required: [post_id, author_id, content]
+      properties: { post_id: { type: integer, minimum: 1 }, author_id: { type: integer, minimum: 1 }, content: { type: string, maxLength: 5000 } }
