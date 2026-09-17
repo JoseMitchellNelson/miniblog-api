@@ -2,7 +2,7 @@ require('dotenv').config();
 const app = require('./app');
 const db = require('./config/db');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 async function start() {
   if (!process.env.DATABASE_URL) throw new Error('Falta la variable DATABASE_URL');
