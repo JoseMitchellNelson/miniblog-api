@@ -29,6 +29,7 @@ function validatePost(body) {
     }
   }
   if (!Number.isInteger(body.author_id) || body.author_id < 1) errors.push('author_id debe ser un entero positivo');
+  
   if (body.published !== undefined && typeof body.published !== 'boolean') errors.push('published debe ser booleano');
   return errors;
 }

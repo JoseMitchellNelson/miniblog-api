@@ -8,10 +8,12 @@
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "test": "node --test",
-    "db:schema": "psql $DATABASE_URL -f sql/schema.sql",
-    "db:seed": "psql $DATABASE_URL -f sql/seed.sql"
+    "db:schema": "node scripts/run-sql.js schema.sql",
+    "db:seed": "node scripts/run-sql.js seed.sql"
   },
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -21,5 +23,7 @@
     "swagger-ui-express": "^5.0.1",
     "yaml": "^2.7.0"
   },
-  "devDependencies": { "supertest": "^7.0.0" }
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
 }

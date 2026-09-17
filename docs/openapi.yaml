@@ -18,6 +18,11 @@ paths:
       requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Author' } } } }
       responses: { '200': { description: Autor actualizado }, '404': { description: No encontrado } }
     delete: { summary: Eliminar autor, responses: { '204': { description: Eliminado }, '404': { description: No encontrado } } }
+    patch:
+      summary: Actualizar parcialmente un autor
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Author' } } } }
+      responses: {'200': {description: "Autor actualizado"}, '400': {description: "Datos inválidos o correo duplicado"}, '404': {description: "Autor no encontrado"}, '500': {description: "Error interno del servidor"}}
+  
   /posts:
     get: { summary: Listar posts con su autor, responses: { '200': { description: Lista de posts } } }
     post:
